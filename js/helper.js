@@ -1,8 +1,13 @@
 var HTMLmainList = '<ul class="mainlist-entry"></ul>';
 var HTMLartistStart = '<li><div class="name-entry"></div></li><br>';
 var HTMLartistName = '<p>%data%</p>';
-var HTMLartistLink = '<a href="#" id="link" onclick="searchAlbum(%data%)">Click to see albumbs</a>';
-var HTMLalbumStart = '<ol class="albumlist-entry" style="display: none"></ol>';
-var HTMLalbumName = '<li><div class="album-entry">%data%</div></li>';
-var HTMLsongStart = '<ol class="songlist-entry" style="display: none"></ol>';
+var HTMLartistLink = '<a href="#">Click to see albumbs</a>';
+var HTMLalbumArtist = '<h2 id="artistname">%artist%<h2>';
+var HTMLalbumArt = '<div><img src="%data%" alt="%data2%" style="width:200px; height:200px"></div>';
+var HTMLalbumStart = '<div class="albumlist-entry"></div>';
+var HTMLalbumName = '<div class="album-entry" style="margin: 10px"><a class="album-anchor" href="#myModal" data-toggle="modal" id="albumid">%data%</a></div>';
+var HTMLsongStart = '<ol class="songlist-entry"></ol>';
 var HTMLsongName = '<li><div class="song-entry">%data%</div></li>';
+var HTMLsongList = '<div><p>%data%</p><em>Duration %data2%</em></div><br>';
+var HTMLmodalHeader = '<h4 class="modal-title text-center">%data%</h4><span style="float: right">by %artist%</span>';
+var HTMLpagination = '<li><a href="#" id="pagination" info="%data2%">%data3%</a></li>';
