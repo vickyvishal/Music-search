@@ -34,7 +34,7 @@ var populateList = function(artist){
 	var formattedImage = artist.images;
 	var artistImage = formattedImage.length > 0 ? formattedImage[0].url :  artist.name + "" ;
 	var info = artistId + artistImage;
-	var artistLink = HTMLartistLink.replace("#", "artistpage.html?id="+ info + "");
+	var artistLink = HTMLartistLink.replace("#", "index2.html?id="+ info + "");
 	$('.mainlist-entry:last').append(HTMLartistStart);
 	$('.name-entry:last').append(artistName, artistLink);
 };
@@ -65,7 +65,7 @@ var populateListNext = function(artist){
 	var artistImage = formattedArtistImage.length > 0 ? formattedArtistImage[0].url :  "NoImage" + artist.name + "" ;
 	console.log(artistImage);
 	var info = artistId + artistImage;
-	var artistLink = HTMLartistLink.replace("#", "artistpage.html?id="+ info + "");
+	var artistLink = HTMLartistLink.replace("#", "index2.html?id="+ info + "");
 	$('.mainlist-entry:last').append(HTMLartistStart);
 	$('.name-entry:last').append(artistName, artistLink);
 };
