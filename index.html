@@ -1,86 +1,32 @@
-window.onload=function() {
-
-var data = "%data%";
-var data2 = "%data2%";
-var data3 = "%data3%";
-var temp;
-var searchArtist = function (query) {
-    $.ajax({
-        url: 'https://api.spotify.com/v1/search',
-        data: {
-            q: query,
-            type: 'artist'
-        },
-        success: function(response) {
-			var formattedList = response.artists;
-			var artistList = formattedList.items;
-			$('#results').append(HTMLmainList);
-			$('.pagination').html('');
-			var nextListURL = formattedList.next;
-			$('#next').attr('info', nextListURL);
-			artistList.forEach(function(artist) {
-				console.log(artist);
-				populateList(artist);
-			});
-        },
-		error: function(){
-			$('$error').html('<div>Spotify has some maintainance to do!</div>');
-		}
-    }); 
-};
-var populateList = function(artist){
-	var artistName = HTMLartistName.replace(data, artist.name);
-	var artistId = artist.id;
-	var formattedImage = artist.images;
-	var artistImage = formattedImage.length > 0 ? formattedImage[0].url :  artist.name + "" ;
-	var info = artistId + artistImage;
-	var artistLink = HTMLartistLink.replace("#", "index2.html?id="+ info + "");
-	$('.mainlist-entry:last').append(HTMLartistStart);
-	$('.name-entry:last').append(artistName, artistLink);
-};
-
-
-
-var searchArtistNext = function(value){
-	$.ajax({
-		url: value,
-		success: function(response) {
-			$('#next').attr('info', response.artists.next);
-			var formattedList = response.artists.items
-			temp = response.artists.next;
-			console.log(formattedList);
-			formattedList.forEach(function(items) {
-				populateListNext(items);
-			});
-		},
-		error: function(){
-			$('$error').html('<div>Spotify has some maintainance to do!</div>');
-		}
-	});
-};
-var populateListNext = function(artist){
-	var artistName = HTMLartistName.replace(data, artist.name);
-	var artistId = artist.id;
-	var formattedArtistImage = artist.images;
-	var artistImage = formattedArtistImage.length > 0 ? formattedArtistImage[0].url :  "NoImage" + artist.name + "" ;
-	console.log(artistImage);
-	var info = artistId + artistImage;
-	var artistLink = HTMLartistLink.replace("#", "index2.html?id="+ info + "");
-	$('.mainlist-entry:last').append(HTMLartistStart);
-	$('.name-entry:last').append(artistName, artistLink);
-};
-
-
-$(document).on('click', '#next', function(){
-	$('.mainlist-entry').html('');//Empty the list to stop multiple append
-	var x = $('#next').attr('info');
-	searchArtistNext(x);	
-}); /* before you click on this all the anchor tag must conatin some id*/ 
-
-
-document.getElementById('search-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    searchArtist(document.getElementById('query').value);
-	document.getElementById('results').innerHTML = "";
-}, false);
-}
+<!doctype html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="https://developer.spotify.com/web-api/static/css/cached.css">
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<link href="https://fonts.googleapis.com/css?family=Sansita" rel="stylesheet">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
+	</head>
+	<body style="font-family: 'Sansita', sans-serif;">
+		<div class="container">
+			<header class="text-center">
+				<h1>Search for an Artist</h1>
+				<p>Powered by Spotify</p>
+				<span id="error"><span>
+			</header>
+			<section class="text-center">
+				<form id="search-form" >
+					<input type="text" id="query" value="" class="form-control" placeholder="Type an Artist Name"/>
+					<input type="submit" id="search" class="btn btn-primary" value="Search"/>
+				</form>
+			</section>
+			<div id="results">
+			</div>
+			<input type="button" value="next" id="next" info="%data%"/>
+		</div>
+		<script type="text/javascript" src="js/App.js"></script>
+		<script src="js/helper.js"></script>
+	</body>
+</html>
