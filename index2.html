@@ -1,0 +1,105 @@
+<!docttype html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link href="https://fonts.googleapis.com/css?family=Sansita" rel="stylesheet">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="js/helper.js"></script>
+		<script>
+			$(document).ready(function(){
+				var query = window.location.search.substring(1);
+				var id = query.slice(3,25);//All artist id in Spotify is 22 charecter long
+				var url = query.slice(25);
+				callAlbum(id, url);
+			});
+			
+			
+			$(document).on('click', '.album-anchor', function(){
+				var x = $('.album-anchor').attr('id');
+				var y = $('.album-anchor').html();
+				var z = $('#artistname').html();
+				$('#modheader').html('');//Empty the list to stop multiple append
+				$('#content').html('');//Empty the list to stop multiple append
+				callTrack(x, y, z);
+			});
+			
+			var data = "%data%";
+			var data2 = "%data2%"
+			
+			function millisToMinutesAndSeconds(millis) {
+			  var minutes = Math.floor(millis / 60000);
+			  var seconds = ((millis % 60000) / 1000).toFixed(0);
+			  return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+			}
+			
+			var callAlbum = function (id, url) {
+				$.ajax({
+					type: "GET",
+					dataType: 'json',
+					cache: false,					
+					url:'https://api.spotify.com/v1/artists/' + id +'/albums',
+					success: function (response) {
+						console.log(response);
+						var albumList = response.items;
+						var albumArtist = HTMLalbumArtist.replace("%artist%", albumList[0].artists[0].name);//the value will be same so no need to iterate
+						var albumArt = HTMLalbumArt.replace(data, url).replace(data2, url);
+						$('#images').append(albumArt).append(albumArtist);
+						albumList.forEach(function(album) {
+							var albumId = album.id;
+							$('#artist').append(HTMLalbumStart);
+							var albumName = HTMLalbumName.replace(data, album.name).replace("albumid", albumId);
+							$('.albumlist-entry:last').append(albumName);						
+						});
+					}
+				});
+			};
+			
+			var callTrack = function(id, name, artist) {
+				//console.log('inhere');
+				$.ajax({
+					type: "GET",
+					dataType: 'json',
+					cache: false,					
+					url:'https://api.spotify.com/v1/albums/'+ id +'/tracks',
+					success: function (response) {
+						var songArray = response.items;
+						var modalHeader = HTMLmodalHeader.replace(data, name).replace("%artist%", artist);
+						$('#modheader').append(modalHeader);
+						songArray.forEach(function(song) {
+							var songDuration = millisToMinutesAndSeconds(song.duration_ms);
+							var songList = HTMLsongList.replace(data, song.name).replace(data2, songDuration );
+							$('#content').append(songList);
+						});
+					}
+				})
+			};
+		</script>
+	</head>
+	<body style="font-family: 'Sansita', sans-serif; background: black">
+		<div class="container" style="width: 80%; margin-bottom: 20px">
+			<header class="row text-center" id="images" style="background: #6AE368">
+			</header>
+			<br>
+			<section class="row" id="artist" style="background: #eaeae8">
+			</section>
+		</div>
+		
+		<div class="modal fade" id="myModal" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header" id="modheader" style="background: #6AE368">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body" id="content">
+					</div>
+					<div class="modal-footer">
+					  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+  
+</div>
+	</body>
+</html>
