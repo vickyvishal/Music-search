@@ -12,8 +12,9 @@
 1. The code is writted using plain vanilla javaScript and jQuery
 2. Spotify API is used
 3. The search query are paginated.
-4. Should be responsive.
+4. Bootstrap is used for responsivness.
 5. All API errors are handled gracefully
+6. Code is indented properly. Jslint is used to properly format the code
 
 ##Viewing the page
 1. Download XAMPP from this link [XAMPP for Windows10] (https://www.apachefriends.org/xampp-files/5.6.30/xampp-win32-5.6.30-0-VC11-installer.exe)
